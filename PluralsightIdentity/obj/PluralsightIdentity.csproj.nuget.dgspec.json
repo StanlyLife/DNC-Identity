@@ -44,6 +44,14 @@
             "Microsoft.Extensions.Identity.core": {
               "target": "Package",
               "version": "[3.1.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            },
+            "dapper": {
+              "target": "Package",
+              "version": "[2.0.35, )"
             }
           },
           "imports": [
