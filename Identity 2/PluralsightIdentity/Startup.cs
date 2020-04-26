@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using PluralsightIdentity.Data;
 using PluralsightIdentity.Interfaces;
 using PluralsightIdentity.Models;
 
@@ -30,7 +31,7 @@ namespace PluralsightIdentity {
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddControllersWithViews();
 
-			services.AddDbContext<IdentityDbContext>(options => {
+			services.AddDbContext<MyApplicationDbContext>(options => {
 				var connectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;" +
 											   "database=DncIdentity2;" +
 											   "trusted_connection=yes;";
@@ -40,7 +41,7 @@ namespace PluralsightIdentity {
 				});
 			});
 
-			services.AddIdentityCore<IdentityUser>(options => {
+			services.AddIdentityCore<MyUser>(options => {
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
@@ -50,8 +51,8 @@ namespace PluralsightIdentity {
 				options.LoginPath = "/home/login";
 			});
 
-			services.AddScoped<IUserStore<IdentityUser>,
-			UserOnlyStore<IdentityUser, IdentityDbContext>>();
+			services.AddScoped<IUserStore<MyUser>,
+			UserOnlyStore<MyUser, MyApplicationDbContext>>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {

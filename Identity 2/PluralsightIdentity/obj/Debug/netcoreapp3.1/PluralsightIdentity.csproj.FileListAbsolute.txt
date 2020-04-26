@@ -138,6 +138,5 @@ C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\b
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csprojAssemblyReference.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csproj.CoreCompileInputs.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 2\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.MvcApplicationPartsAssemblyInfo.cache

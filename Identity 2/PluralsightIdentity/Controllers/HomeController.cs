@@ -16,9 +16,9 @@ namespace PluralsightIdentity.Controllers {
 
 	public class HomeController : Controller {
 		private readonly ILogger<HomeController> _logger;
-		private readonly UserManager<IdentityUser> userManager;
+		private readonly UserManager<MyUser> userManager;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager) {
+		public HomeController(ILogger<HomeController> logger, UserManager<MyUser> userManager) {
 			_logger = logger;
 			this.userManager = userManager;
 		}
@@ -49,7 +49,7 @@ namespace PluralsightIdentity.Controllers {
 
 				if (user == null) {
 					Console.WriteLine($"Username = {model.UserName}");
-					user = new IdentityUser {
+					user = new MyUser {
 						Id = Guid.NewGuid().ToString(),
 						UserName = model.UserName,
 					};

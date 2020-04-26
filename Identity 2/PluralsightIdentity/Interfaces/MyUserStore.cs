@@ -22,7 +22,7 @@ namespace PluralsightIdentity.Interfaces {
 					new {
 						id = user.Id,
 						userName = user.UserName,
-						normalizedUserName = user.NormalizedUsername,
+						normalizedUserName = user.UserName.Normalize(),
 						passwordHash = user.PasswordHash
 					}
 				);
@@ -52,7 +52,7 @@ namespace PluralsightIdentity.Interfaces {
 		}
 
 		public Task<string> GetNormalizedUserNameAsync(MyUser user, CancellationToken cancellationToken) {
-			return Task.FromResult(user.NormalizedUsername);
+			return Task.FromResult(user.UserName.Normalize());
 		}
 
 		public Task<string> GetUserIdAsync(MyUser user, CancellationToken cancellationToken) {
@@ -85,7 +85,7 @@ namespace PluralsightIdentity.Interfaces {
 					new {
 						id = user.Id,
 						userName = user.UserName,
-						normalizedUserName = user.NormalizedUsername,
+						normalizedUserName = user.UserName.Normalize(),
 						passwordHash = user.PasswordHash
 					}
 				);
