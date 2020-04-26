@@ -9,12 +9,12 @@ using Dapper;
 
 namespace PluralsightIdentity.Interfaces {
 
-	public class MyUserStore : IUserStore<MyUser> {
+	public class MyUserStore : IUserStore<MyUser>, IUserPasswordStore<MyUser> {
 
 		public async Task<IdentityResult> CreateAsync(MyUser user, CancellationToken cancellationToken) {
 			using (var connection = GetOpenConnection()) {
 				await connection.ExecuteAsync(
-					"insert into MyUsers([Id]," +
+					"insert into DncIdentityUsers([Id]," +
 					"[UserName]," +
 					"[NormalizedUserName]," +
 					"[PasswordHash]) " +
@@ -45,7 +45,7 @@ namespace PluralsightIdentity.Interfaces {
 		public async Task<MyUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken) {
 			using (var connection = GetOpenConnection()) {
 				return await connection.QueryFirstOrDefaultAsync<MyUser>(
-					"select * From MyUsers where NormalizedUserName = @name",
+					"select * From DncIdentityUsers where NormalizedUserName = @name",
 					new { name = normalizedUserName });
 			}
 		}
@@ -75,7 +75,7 @@ namespace PluralsightIdentity.Interfaces {
 		public async Task<IdentityResult> UpdateAsync(MyUser user, CancellationToken cancellationToken) {
 			using (var connection = GetOpenConnection()) {
 				await connection.ExecuteAsync(
-					"update MyUsers " +
+					"update DncIdentityUsers " +
 					"set [Id] = @id," +
 					"[UserName] = @userName," +
 					"[NormalizedUserName] = @normalizedUserName," +
@@ -100,6 +100,19 @@ namespace PluralsightIdentity.Interfaces {
 			connection.Open();
 
 			return connection;
+		}
+
+		public Task SetPasswordHashAsync(MyUser user, string passwordHash, CancellationToken cancellationToken) {
+			user.PasswordHash = passwordHash;
+			return Task.CompletedTask;
+		}
+
+		public Task<string> GetPasswordHashAsync(MyUser user, CancellationToken cancellationToken) {
+			return Task.FromResult(user.PasswordHash);
+		}
+
+		public Task<bool> HasPasswordAsync(MyUser user, CancellationToken cancellationToken) {
+			return Task.FromResult(user.PasswordHash != null);
 		}
 	}
 }

@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using PluralsightIdentity.Interfaces;
+using PluralsightIdentity.Models;
 
 namespace PluralsightIdentity {
 
@@ -22,11 +26,17 @@ namespace PluralsightIdentity {
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddControllersWithViews();
 
-			services.AddIdentityCore<string>(options => {
+			services.AddIdentityCore<MyUser>(options => {
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
 			});
+
+			services.AddAuthentication("NameOfScheme").AddCookie("NameOfScheme", options => {
+				options.LoginPath = "/home/login";
+			});
+
+			services.AddScoped<IUserStore<MyUser>, MyUserStore>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -41,6 +51,7 @@ namespace PluralsightIdentity {
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints => {

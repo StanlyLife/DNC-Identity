@@ -47,9 +47,15 @@ C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\bin\Debug\ne
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csproj.CoreCompileInputs.cache
-C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.Views.pdb
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.dll
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.pdb
 C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.genruntimeconfig.cache
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\Contact.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\Register.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\Success.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csproj.CoreCompileInputs.cache
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\About.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csprojAssemblyReference.cache
