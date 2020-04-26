@@ -48,15 +48,24 @@ namespace PluralsightIdentity.Controllers {
 				var user = await userManager.FindByNameAsync(model.UserName);
 
 				if (user == null) {
+					Console.WriteLine($"Username = {model.UserName}");
 					user = new MyUser {
 						Id = Guid.NewGuid().ToString(),
-						UserName = model.UserName
+						UserName = model.UserName,
+						NormalizedUsername = model.UserName.Normalize()
 					};
 
 					var result = await userManager.CreateAsync(user, model.Password);
+					if (result.Succeeded) {
+						return View("Success");
+					} else {
+						foreach (var err in result.Errors.ToList()) {
+							Console.WriteLine($"Error: {err}");
+						}
+						return View();
+					}
 				}
-
-				return View("Success");
+				Console.WriteLine("User already exists");
 			}
 
 			return View();
@@ -88,7 +97,7 @@ namespace PluralsightIdentity.Controllers {
 					var Identity = new ClaimsIdentity("NameOfIssuer");
 					Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
 					Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-					await HttpContext.SignInAsync("NameOfPrincipal", new ClaimsPrincipal(Identity));
+					await HttpContext.SignInAsync("Name.Of.Scheme", new ClaimsPrincipal(Identity));
 					Console.WriteLine("LOGGED IN!");
 					return RedirectToAction("Index");
 				}

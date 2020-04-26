@@ -43,6 +43,7 @@ namespace PluralsightIdentity.Interfaces {
 		}
 
 		public async Task<MyUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken) {
+			Console.WriteLine($"NormalizedUserName: {normalizedUserName}");
 			using (var connection = GetOpenConnection()) {
 				return await connection.QueryFirstOrDefaultAsync<MyUser>(
 					"select * From DncIdentityUsers where NormalizedUserName = @name",
@@ -98,7 +99,6 @@ namespace PluralsightIdentity.Interfaces {
 											   "database=DncIdentity;" +
 											   "trusted_connection=yes;");
 			connection.Open();
-
 			return connection;
 		}
 
