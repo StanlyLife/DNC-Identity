@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -70,18 +71,31 @@ namespace PluralsightIdentity.Controllers {
 		public async Task<IActionResult> LoginAsync(LoginModel model) {
 			if (ModelState.IsValid) {
 				var user = await userManager.FindByNameAsync(model.UserName);
+				/**/
+				if (user != null) {
+					Console.WriteLine("found user");
+					if (await userManager.CheckPasswordAsync(user, model.Password)) {
+						Console.WriteLine("Password match");
+					} else {
+						Console.WriteLine("password did not match");
+					}
+				} else {
+					Console.WriteLine("did not find user");
+				}
+				/**/
 
 				if (user != null && await userManager.CheckPasswordAsync(user, model.Password)) {
 					var Identity = new ClaimsIdentity("NameOfIssuer");
 					Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
 					Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
 					await HttpContext.SignInAsync("NameOfPrincipal", new ClaimsPrincipal(Identity));
-
+					Console.WriteLine("LOGGED IN!");
 					return RedirectToAction("Index");
 				}
-
+				Console.WriteLine($"user != null: username = {model.UserName}, password = {model.Password}");
 				ModelState.AddModelError("", "Invalid Credentials");
 			}
+			Console.WriteLine("Modelstate invalid");
 			return View();
 		}
 

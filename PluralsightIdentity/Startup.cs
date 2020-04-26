@@ -32,7 +32,7 @@ namespace PluralsightIdentity {
 				options.Password.RequireDigit = false;
 			});
 
-			services.AddAuthentication("NameOfScheme").AddCookie("NameOfScheme", options => {
+			services.AddAuthentication("Name.Of.Scheme").AddCookie("Name.Of.Scheme", options => {
 				options.LoginPath = "/home/login";
 			});
 
