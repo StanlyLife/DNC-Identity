@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using PluralsightIdentity.Data;
 using PluralsightIdentity.Interfaces;
 using PluralsightIdentity.Models;
+using PluralsightIdentity.TokenProviders;
 
 namespace PluralsightIdentity {
 
@@ -40,11 +41,18 @@ namespace PluralsightIdentity {
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
+
+				options.Tokens.EmailConfirmationTokenProvider = "emailConf";
 			}).AddEntityFrameworkStores<MyApplicationDbContext>()
-			.AddDefaultTokenProviders();
+			.AddDefaultTokenProviders()
+			.AddTokenProvider<EmailConfirmationTokenProvider<MyUser>>("emailConf");
 
 			services.Configure<DataProtectionTokenProviderOptions>(options => {
-				options.TokenLifespan = TimeSpan.FromHours(1);
+				options.TokenLifespan = TimeSpan.FromMinutes(30);
+			});
+
+			services.Configure<EmailConfirmationTokenProviderOptions>(options => {
+				options.TokenLifespan = TimeSpan.FromDays(7);
 			});
 
 			/*This is not needed as we changed AddIndentityCore to AddIdentity*/
