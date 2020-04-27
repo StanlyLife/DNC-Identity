@@ -56,10 +56,15 @@ namespace PluralsightIdentity.Controllers {
 					user = new MyUser {
 						Id = Guid.NewGuid().ToString(),
 						UserName = model.UserName,
+						Email = model.UserName
 					};
 
 					var result = await userManager.CreateAsync(user, model.Password);
 					if (result.Succeeded) {
+						var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+						var confirmationEmail = Url.Action("ConfirmEmailAdress", "Home", new { token = token, email = user.Email }, Request.Scheme);
+						//Send link to email
+						System.IO.File.WriteAllText("ConfirmEmailLink.txt", confirmationEmail);
 						return View("Success");
 					} else {
 						foreach (var err in result.Errors.ToList()) {
@@ -72,6 +77,18 @@ namespace PluralsightIdentity.Controllers {
 			}
 
 			return View();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> ConfirmEmailAdress(string token, string email) {
+			var user = await userManager.FindByEmailAsync(email);
+			if (user != null) {
+				var result = await userManager.ConfirmEmailAsync(user, token);
+				if (result.Succeeded) {
+					return View("Success");
+				}
+			}
+			return View("Error");
 		}
 
 		[HttpGet]

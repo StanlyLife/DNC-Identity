@@ -36,6 +36,7 @@ namespace PluralsightIdentity {
 			});
 
 			services.AddIdentity<MyUser, IdentityRole>(options => {
+				options.SignIn.RequireConfirmedEmail = true;
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
