@@ -98,7 +98,8 @@ namespace PluralsightIdentity.Controllers {
 
 		[HttpPost]
 		public async Task<IActionResult> LoginAsync(LoginModel model) {
-			if (ModelState.IsValid) {
+			var user = await userManager.FindByNameAsync(model.UserName);
+			if (ModelState.IsValid && user != null) {
 				/*
 				if (user != null && await userManager.CheckPasswordAsync(user, model.Password)) {
 					//var Identity = new ClaimsIdentity("Identity.Application");
@@ -112,12 +113,17 @@ namespace PluralsightIdentity.Controllers {
 					await HttpContext.SignInAsync("Identity.Application", principal);
 				}
 				*/
-
 				var signInResult = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-
-				if (signInResult.Succeeded) {
+				var isLockedOut = await userManager.IsLockedOutAsync(user);
+				if (signInResult.Succeeded && !isLockedOut) {
 					Console.WriteLine("Logged in!");
 					return RedirectToAction("Index");
+				} else if (isLockedOut) {
+					Console.WriteLine("User is lockedout for x minutes");
+					//send email about lockout
+				} else {
+					Console.WriteLine("Lockout increment");
+					await userManager.AccessFailedAsync(user);
 				}
 
 				ModelState.AddModelError("", "Invalid Credentials");

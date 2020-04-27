@@ -38,12 +38,16 @@ namespace PluralsightIdentity {
 
 			services.AddIdentity<MyUser, IdentityRole>(options => {
 				options.SignIn.RequireConfirmedEmail = true;
-				options.Password.RequiredLength = 1;
+				options.Password.RequiredLength = 5;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
 
 				options.User.RequireUniqueEmail = true;
 				options.Tokens.EmailConfirmationTokenProvider = "emailConf";
+
+				options.Lockout.AllowedForNewUsers = true;
+				options.Lockout.MaxFailedAccessAttempts = 3;
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
 			}).AddEntityFrameworkStores<MyApplicationDbContext>()
 			.AddDefaultTokenProviders()
 			.AddTokenProvider<EmailConfirmationTokenProvider<MyUser>>("emailConf")
