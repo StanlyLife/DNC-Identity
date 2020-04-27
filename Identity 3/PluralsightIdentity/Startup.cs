@@ -42,10 +42,12 @@ namespace PluralsightIdentity {
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
 
+				options.User.RequireUniqueEmail = true;
 				options.Tokens.EmailConfirmationTokenProvider = "emailConf";
 			}).AddEntityFrameworkStores<MyApplicationDbContext>()
 			.AddDefaultTokenProviders()
-			.AddTokenProvider<EmailConfirmationTokenProvider<MyUser>>("emailConf");
+			.AddTokenProvider<EmailConfirmationTokenProvider<MyUser>>("emailConf")
+			.AddPasswordValidator<DoesNotContainPasswordValidator<MyUser>>();
 
 			services.Configure<DataProtectionTokenProviderOptions>(options => {
 				options.TokenLifespan = TimeSpan.FromMinutes(30);
