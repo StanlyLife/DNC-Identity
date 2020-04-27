@@ -33,15 +33,19 @@ namespace PluralsightIdentity {
 				});
 			});
 
-			services.AddIdentityCore<MyUser>(options => {
+			services.AddIdentity<MyUser, IdentityRole>(options => {
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
-			});
+			}).AddEntityFrameworkStores<MyApplicationDbContext>();
 
-			services.AddAuthentication("Name.Of.Scheme").AddCookie("Name.Of.Scheme", options => {
-				options.LoginPath = "/home/login";
-			});
+			/*This is not needed as we changed AddIndentityCore to AddIdentity*/
+			/*AddIdentity provides its own authentication*/
+			//services.AddAuthentication("Name.Of.Scheme").AddCookie("Name.Of.Scheme", options => {
+			//	options.LoginPath = "/home/login";
+			//});
+
+			services.ConfigureApplicationCookie(o => o.LoginPath = "/home/login");
 
 			services.AddScoped<IUserStore<MyUser>,
 			UserOnlyStore<MyUser, MyApplicationDbContext>>();

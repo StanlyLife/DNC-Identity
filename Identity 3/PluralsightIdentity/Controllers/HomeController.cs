@@ -17,10 +17,12 @@ namespace PluralsightIdentity.Controllers {
 	public class HomeController : Controller {
 		private readonly ILogger<HomeController> _logger;
 		private readonly UserManager<MyUser> userManager;
+		private readonly IUserClaimsPrincipalFactory<MyUser> claimsPrincipalFactory;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<MyUser> userManager) {
+		public HomeController(ILogger<HomeController> logger, UserManager<MyUser> userManager, IUserClaimsPrincipalFactory<MyUser> claimsPrincipalFactory) {
 			_logger = logger;
 			this.userManager = userManager;
+			this.claimsPrincipalFactory = claimsPrincipalFactory;
 		}
 
 		public IActionResult Index() {
@@ -93,11 +95,15 @@ namespace PluralsightIdentity.Controllers {
 				/**/
 
 				if (user != null && await userManager.CheckPasswordAsync(user, model.Password)) {
-					var Identity = new ClaimsIdentity("NameOfIssuer");
-					Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
-					Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-					await HttpContext.SignInAsync("Name.Of.Scheme", new ClaimsPrincipal(Identity));
-					Console.WriteLine("LOGGED IN!");
+					//var Identity = new ClaimsIdentity("Identity.Application");
+					//Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+					//Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+					//await HttpContext.SignInAsync("Identity.Application", new ClaimsPrincipal(Identity));
+					//Console.WriteLine("LOGGED IN!");
+
+					var principal = await claimsPrincipalFactory.CreateAsync(user);
+
+					await HttpContext.SignInAsync("Identity.Application", principal);
 					return RedirectToAction("Index");
 				}
 				Console.WriteLine($"user != null: username = {model.UserName}, password = {model.Password}");
