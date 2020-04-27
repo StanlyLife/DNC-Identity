@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PluralsightIdentity.Data;
+using PluralsightIdentity.Interfaces;
 using PluralsightIdentity.Models;
 
 namespace PluralsightIdentity {
@@ -49,6 +50,8 @@ namespace PluralsightIdentity {
 
 			services.AddScoped<IUserStore<MyUser>,
 			UserOnlyStore<MyUser, MyApplicationDbContext>>();
+
+			services.AddScoped<IUserClaimsPrincipalFactory<MyUser>, MyUserClaimsPrincipalFactory>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
