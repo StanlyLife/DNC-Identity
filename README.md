@@ -55,6 +55,10 @@ We have also added confirm email, forgot password, reset password and TwoFactorA
 
 does infact contain password validator. In the method `ValidateAsync` we check against use cases we do not approve of and thereby return appropriate `IdentityError`s 
 
+###### NOTE
+
+We create a new class `EmailConfirmationtoken` to give us the option to use different timespans on `TokenLifespan`. Example: It may take a user longer to confirm their email than if they were to use 2FA which is why we want different timespans. This is a part of *securing token services*
+
 ___
 
 ## Identity 4
@@ -64,17 +68,21 @@ Identity 4 Is more or less the same as Identity 3, however there are some minor 
 ###### HomeController
 
 In the homecontroller we changed `SignInManager` back to `HttpContext.SignInManager` to get more options, especially regarding claims.
+We then use the method `Store2FA` to generate claims regarding the 2FA.
+
+we use the `TwoFactorAsync` methods to handle the signin if it is enabled.
+we then use `UserManager.GeneratetwoFactorTokenAsync` to generate a 2FA token which we will send by email, or in this case generate to a text file to validate against. We then validate the token in `TwoFactorAsync` using the `TwoFactorModel` and `UserManager.VerifyTwoFactorTokenAsync`
+
 
 ###### TwoFactorModel
 
 We use the homecontroller to check if 2FA is enabled, it is not by default, but i set it manually in my database using queries.
 We then use the model to transport the `Token` string.
 
-######
 
+___
 
-
-
+**Final note:** *If this repo is subject to misinformation, please create an issue and/or a pull request*
 
 
 
