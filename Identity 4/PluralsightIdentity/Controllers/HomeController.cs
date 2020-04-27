@@ -94,37 +94,71 @@ namespace PluralsightIdentity.Controllers {
 		public async Task<IActionResult> LoginAsync(LoginModel model) {
 			var user = await userManager.FindByNameAsync(model.UserName);
 			if (ModelState.IsValid && user != null) {
-				/*
+				if (user == null) {
+					Console.WriteLine("user not found");
+				} else if (await userManager.CheckPasswordAsync(user, model.Password)) {
+					Console.WriteLine("password did not match!");
+				}
+
 				if (user != null && await userManager.CheckPasswordAsync(user, model.Password)) {
-					//var Identity = new ClaimsIdentity("Identity.Application");
-					//Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
-					//Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-					//await HttpContext.SignInAsync("Identity.Application", new ClaimsPrincipal(Identity));
-					//Console.WriteLine("LOGGED IN!");
+					/*Add claims*/
+					var Identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+					Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+					Identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+					await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(Identity));
+					Console.WriteLine("LOGGED IN!");
 
 					var principal = await claimsPrincipalFactory.CreateAsync(user);
 
-					await HttpContext.SignInAsync("Identity.Application", principal);
-				}
-				*/
+					/*2FA*/
 
-				var signInResult = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-				var isLockedOut = await userManager.IsLockedOutAsync(user);
-				if (signInResult.Succeeded && !isLockedOut) {
-					Console.WriteLine("Logged in!");
-					await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
-					return RedirectToAction("Index");
-				} else if (isLockedOut) {
-					await userManager.ResetAccessFailedCountAsync(user);
-					Console.WriteLine("User is lockedout for x minutes");
-					//send email about lockout
-					//email to link where userManager.ResetAccessFailedCountAsync(user)
-				} else {
-					Console.WriteLine("Lockout increment");
-					await userManager.AccessFailedAsync(user);
+					if (await userManager.GetTwoFactorEnabledAsync(user)) {
+						var validProviders = await userManager.GetValidTwoFactorProvidersAsync(user);
+						if (validProviders.Count > 0) {
+							foreach (var provider in validProviders) {
+								Console.WriteLine($"valid provider: {provider}");
+							}
+						} else {
+							Console.WriteLine("No valid providers found");
+						}
+
+						if (validProviders.Contains("Email")) {
+							var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
+							System.IO.File.WriteAllText("email2sv.txt", token);
+							//Send token to email or phone
+
+							await HttpContext.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, Store2FA(user.Id, "Email"));
+							return RedirectToAction("TwoFactor");
+						} else {
+							Console.WriteLine("Valid providers does not contain EMAIL");
+							return View();
+						}
+					} else {
+						Console.WriteLine("two factor not enabled!");
+						return View();
+					}
+
+					/*Sign In*/
+					await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
 				}
 
-				ModelState.AddModelError("", "Invalid Credentials");
+				//var signInResult = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+				//var isLockedOut = await userManager.IsLockedOutAsync(user);
+				//if (signInResult.Succeeded && !isLockedOut) {
+				//	Console.WriteLine("Logged in!");
+				//	await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
+				//	return RedirectToAction("Index");
+				//} else if (isLockedOut) {
+				//	await userManager.ResetAccessFailedCountAsync(user);
+				//	Console.WriteLine("User is lockedout for x minutes");
+				//	//send email about lockout
+				//	//email to link where userManager.ResetAccessFailedCountAsync(user)
+				//} else {
+				//	Console.WriteLine("Lockout increment");
+				//	await userManager.AccessFailedAsync(user);
+				//}
+
+				//ModelState.AddModelError("", "Invalid Credentials");
 			}
 			Console.WriteLine("Modelstate invalid");
 			return View();
@@ -211,13 +245,46 @@ namespace PluralsightIdentity.Controllers {
 
 		#region TWO FACTOR AUTH
 
+		private ClaimsPrincipal Store2FA(string userId, string provider) {
+			var identity = new ClaimsIdentity(new List<Claim> {
+				new Claim("sub", userId),
+				new Claim("amr", provider)
+			}, IdentityConstants.TwoFactorUserIdScheme);
+			return new ClaimsPrincipal(identity);
+		}
+
 		[HttpGet]
 		public IActionResult TwoFactor() {
 			return View();
 		}
 
 		[HttpPost]
-		public IActionResult TwoFactor(TwoFactorModel model) {
+		public async Task<IActionResult> TwoFactorAsync(TwoFactorModel model) {
+			var result = await HttpContext.AuthenticateAsync(IdentityConstants.TwoFactorUserIdScheme);
+
+			if (!result.Succeeded) {
+				ModelState.AddModelError("", "login request has expired");
+				return View();
+			}
+
+			if (ModelState.IsValid) {
+				var user = await userManager.FindByIdAsync(result.Principal.FindFirstValue("sub"));
+
+				if (user != null) {
+					var isValid = await userManager.VerifyTwoFactorTokenAsync(user, result.Principal.FindFirstValue("amr"), model.Token);
+					if (isValid) {
+						await HttpContext.SignOutAsync(IdentityConstants.TwoFactorUserIdScheme);
+
+						var claimsPrincipal = await claimsPrincipalFactory.CreateAsync(user);
+						await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, claimsPrincipal);
+
+						return RedirectToAction("Index");
+					}
+					ModelState.AddModelError("", "Invalid token");
+					return View();
+				}
+				ModelState.AddModelError("", "invalid request");
+			}
 			return View();
 		}
 

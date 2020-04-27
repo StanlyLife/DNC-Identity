@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HEnHsVytc8Dh8mlo36EHQAtqlQhLlRI25HzF5sL1BXPo2BJK4evcfXpkm4ErMlcV65tIVbtV3OTMhSezseNjqA==",
+  "dgSpecHash": "XLxRWwc4rpCMv0/TRpjzTjhRVOmwqe9mh8BDTj8BDTnLvX9WICI1RnwHDR7QJfx82HezISwjIC/vaBKbRI95kQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 3\\PluralsightIdentity\\PluralsightIdentity.csproj",
+  "projectFilePath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 4\\PluralsightIdentity\\PluralsightIdentity.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\stian\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",
     "C:\\Users\\stian\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

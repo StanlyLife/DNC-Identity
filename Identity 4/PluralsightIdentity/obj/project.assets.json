@@ -5977,11 +5977,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 3\\PluralsightIdentity\\PluralsightIdentity.csproj",
+      "projectUniqueName": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 4\\PluralsightIdentity\\PluralsightIdentity.csproj",
       "projectName": "PluralsightIdentity",
-      "projectPath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 3\\PluralsightIdentity\\PluralsightIdentity.csproj",
+      "projectPath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 4\\PluralsightIdentity\\PluralsightIdentity.csproj",
       "packagesPath": "C:\\Users\\stian\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 3\\PluralsightIdentity\\obj\\",
+      "outputPath": "C:\\Users\\stian\\source\\repos\\PluralsightIdentity\\Identity 4\\PluralsightIdentity\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
