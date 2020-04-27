@@ -18,11 +18,13 @@ namespace PluralsightIdentity.Controllers {
 		private readonly ILogger<HomeController> _logger;
 		private readonly UserManager<MyUser> userManager;
 		private readonly IUserClaimsPrincipalFactory<MyUser> claimsPrincipalFactory;
+		private readonly SignInManager<MyUser> signInManager;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<MyUser> userManager, IUserClaimsPrincipalFactory<MyUser> claimsPrincipalFactory) {
+		public HomeController(ILogger<HomeController> logger, UserManager<MyUser> userManager, IUserClaimsPrincipalFactory<MyUser> claimsPrincipalFactory, SignInManager<MyUser> signInManager) {
 			_logger = logger;
 			this.userManager = userManager;
 			this.claimsPrincipalFactory = claimsPrincipalFactory;
+			this.signInManager = signInManager;
 		}
 
 		public IActionResult Index() {
@@ -80,20 +82,7 @@ namespace PluralsightIdentity.Controllers {
 		[HttpPost]
 		public async Task<IActionResult> LoginAsync(LoginModel model) {
 			if (ModelState.IsValid) {
-				var user = await userManager.FindByNameAsync(model.UserName);
-				/**/
-				if (user != null) {
-					Console.WriteLine("found user");
-					if (await userManager.CheckPasswordAsync(user, model.Password)) {
-						Console.WriteLine("Password match");
-					} else {
-						Console.WriteLine("password did not match");
-					}
-				} else {
-					Console.WriteLine("did not find user");
-				}
-				/**/
-
+				/*
 				if (user != null && await userManager.CheckPasswordAsync(user, model.Password)) {
 					//var Identity = new ClaimsIdentity("Identity.Application");
 					//Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
@@ -104,12 +93,39 @@ namespace PluralsightIdentity.Controllers {
 					var principal = await claimsPrincipalFactory.CreateAsync(user);
 
 					await HttpContext.SignInAsync("Identity.Application", principal);
+				}
+				*/
+
+				var signInResult = await signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+
+				if (signInResult.Succeeded) {
+					Console.WriteLine("Logged in!");
 					return RedirectToAction("Index");
 				}
-				Console.WriteLine($"user != null: username = {model.UserName}, password = {model.Password}");
+
 				ModelState.AddModelError("", "Invalid Credentials");
 			}
 			Console.WriteLine("Modelstate invalid");
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult ForgotPassWord() {
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult ForgotPassWord(ForgotPassword model) {
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult ResetPassWord() {
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult ResetPassWord(ResetPasswordModel model) {
 			return View();
 		}
 

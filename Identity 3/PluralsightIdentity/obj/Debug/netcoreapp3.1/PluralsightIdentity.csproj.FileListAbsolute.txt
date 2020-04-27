@@ -191,7 +191,6 @@ C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\b
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csprojAssemblyReference.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csproj.CoreCompileInputs.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.RazorAssemblyInfo.cache
@@ -222,3 +221,4 @@ C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\o
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.dll
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.pdb
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.genruntimeconfig.cache
+C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\ForgotPassword.cshtml.g.cs
