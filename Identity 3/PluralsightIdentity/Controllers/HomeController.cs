@@ -115,17 +115,50 @@ namespace PluralsightIdentity.Controllers {
 		}
 
 		[HttpPost]
-		public IActionResult ForgotPassWord(ForgotPassword model) {
+		public async Task<IActionResult> ForgotPassWordAsync(ForgotPassword model) {
+			if (ModelState.IsValid) {
+				var user = await userManager.FindByEmailAsync(model.Email);
+				if (user != null) {
+					var token = await userManager.GeneratePasswordResetTokenAsync(user);
+					var resetUrl = Url.Action("ResetPassword", "Home",
+						new { token = token, email = user.Email }, Request.Scheme);
+
+					System.IO.File.WriteAllText("resetLink.txt", resetUrl);
+					//Send email to user
+					return View("Success");
+				} else {
+					//Send email, you do not have an account
+					Console.WriteLine("No account with that username found");
+				}
+			}
+
 			return View();
 		}
 
 		[HttpGet]
-		public IActionResult ResetPassWord() {
-			return View();
+		public IActionResult ResetPassWord(string token, string email) {
+			return View(new ResetPasswordModel { Token = token, Email = email });
 		}
 
 		[HttpPost]
-		public IActionResult ResetPassWord(ResetPasswordModel model) {
+		public async Task<IActionResult> ResetPassWordAsync(ResetPasswordModel model) {
+			if (ModelState.IsValid) {
+				var user = await userManager.FindByEmailAsync(model.Email);
+
+				if (user != null) {
+					var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+					if (!result.Succeeded) {
+						foreach (var error in result.Errors) {
+							ModelState.AddModelError("", error.ToString());
+						}
+						Console.WriteLine("Failed");
+						return View();
+					}
+					return View("Success");
+				}
+				ModelState.AddModelError("", "Invalid Request!");
+			}
 			return View();
 		}
 

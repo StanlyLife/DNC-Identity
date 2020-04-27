@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,7 +39,12 @@ namespace PluralsightIdentity {
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireDigit = false;
-			}).AddEntityFrameworkStores<MyApplicationDbContext>();
+			}).AddEntityFrameworkStores<MyApplicationDbContext>()
+			.AddDefaultTokenProviders();
+
+			services.Configure<DataProtectionTokenProviderOptions>(options => {
+				options.TokenLifespan = TimeSpan.FromHours(1);
+			});
 
 			/*This is not needed as we changed AddIndentityCore to AddIdentity*/
 			/*AddIdentity provides its own authentication*/

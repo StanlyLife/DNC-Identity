@@ -222,3 +222,5 @@ C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\o
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.pdb
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.genruntimeconfig.cache
 C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\ForgotPassword.cshtml.g.cs
+C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\PluralsightIdentity.csprojAssemblyReference.cache
+C:\Users\stian\source\repos\PluralsightIdentity\Identity 3\PluralsightIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Home\ResetPassword.cshtml.g.cs
